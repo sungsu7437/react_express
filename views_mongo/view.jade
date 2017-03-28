@@ -1,0 +1,41 @@
+//
+   Created by sss on 2017-03-09.
+
+doctype html
+html
+    head
+        meta(charset='utf-8')
+    body
+        h1
+            a(href='/topic') Server Side JavaScript
+        ul
+            if topics
+                each topic in topics
+                    li
+                        - _id = encodeURIComponent(topic._id)
+                        a(href='/topic/' + _id)= topic.title
+        article
+            if topic
+                h2= topic.title
+                = topic.description
+                div= 'by '+topic.author
+            else
+                h2 Welcome
+                | This is server side javascript tutorial.
+        ul
+            li
+                a(href='/topic/add') add
+            if topic
+                - _id = encodeURIComponent(topic._id)
+                - author = encodeURIComponent(topic.author)
+                form(action='/topic/' + _id + '/' + author +'/edit')
+                    li
+                        button edit
+                form(action='/topic/' + _id + '/delete' method='post' )
+                    li
+                        button delete
+                        input(type='hidden' name='author' value=topic.author)
+
+
+
+
