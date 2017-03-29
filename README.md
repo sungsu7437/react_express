@@ -1,6 +1,6 @@
-# web_test
+# React Express
 
-Web Application test
+React Express Application test
 
 mongodb is for borad and auth, redis is for session information
 
