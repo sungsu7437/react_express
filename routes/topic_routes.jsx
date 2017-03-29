@@ -8,16 +8,22 @@ var Route = ReactRouter.Route;
 var IndexRoute = ReactRouter.IndexRoute;
 var browserHistory = ReactRouter.browserHistory;
 
+if (typeof window === 'object') {
+    function createElement(Component, props) {
+        return <Component {...props} custom={window.PROPS} />;
+    }
+}
+
+
 module.exports = (
-    <Router history={browserHistory}>
+    <Router history={browserHistory} createElement={createElement}>
         <Route path='/' component={require('../views_mongo/Layout.jsx')}>
-            <IndexRoute component={require('../views_mongo/Index.jsx')} />
-            <Route path='topic' component={require('../views_mongo/Topics.jsx')} >
-                <Route path=':id' component={require('../views_mongo/Topic.jsx')} />
-                <Route path='add' component={require('../views_mongo/Add.jsx')} />
-                <Route path='edit' component={require('../views_mongo/Edit.jsx')} />
-                <Route path='delete' component={require('../views_mongo/Delete.jsx')} />
-            </Route>
+            <Route path='topic' component={require('../views_mongo/Topics.jsx')} />
+            <Route path='topic/:id' component={require('../views_mongo/Topic.jsx')} />
+            <Route path='topic/add/:id' component={require('../views_mongo/Add.jsx')} />
+            <Route path='topic/edit/:id' component={require('../views_mongo/Edit.jsx')} />
+            <Route path='topic/delete/:id' component={require('../views_mongo/Delete.jsx')} />
+
         </Route>
     </Router>
 );

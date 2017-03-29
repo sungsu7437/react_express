@@ -9,26 +9,20 @@ function reducer(state) { return state; }
 
 
 router.get('*', function(req, res) {
-    var initialState = { title: 'Universal React',
-        id: '',
-        topics: '',
-        topic: '',
-        author: ''
-    };
+    var props = { title: 'Universal React'};
 
-    var store = Redux.createStore(reducer, initialState);
 
     ReactRouter.match({
         routes: require('./topic_routes.jsx'),
         location: req.url
     }, function(error, redirectLocation, renderProps) {
         if (renderProps) {
-            initialState.topics = "test";
-            store = Redux.createStore(reducer, initialState);
             var html = ReactDOMServer.renderToString(
-                <Provider store={store}>
-                    <ReactRouter.RouterContext {...renderProps} />
-                </Provider>
+                <ReactRouter.RouterContext {...renderProps}
+                    creatElement={function(Component, renderProps) {
+                        return <Component {...renderProps} custom={props} />;
+                    }}
+                />
             );
             res.send(html);
         } else {

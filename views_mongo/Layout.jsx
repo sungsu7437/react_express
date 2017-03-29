@@ -1,15 +1,16 @@
 var React = require('react');
 var Link = require('react-router').Link;
-var connect = require('react-redux').connect;
 
-var Layout = React.createClass({
+module.exports = React.createClass({
+    displayName: 'Layout',
     _handleClick: function() {
         alert();
     },
     render: function() {
         var custom = this.props.custom;
-        custom.id=false;
-
+        var id = this.props.params.id;
+        console.log("author =" + custom.topic.author);
+        console.log("user =" + custom.user);
         // console.log(custom);
         return (
             <html>
@@ -19,26 +20,28 @@ var Layout = React.createClass({
             </head>
             <body>
             <h1>{custom.title}</h1>
-            <p>Isn't server-side rendering remarkable?</p>
-            <button onClick={this._handleClick}>Click Me</button>
             {this.props.children}
             <ul>
                 <li>
-                    <Link to='/topic'>Topic</Link>
+                    <Link to='/topic'>Home</Link>
+                </li>
+                <li>
+                    <Link to={"/topic/add/"+id}>Add</Link>
                 </li>
             </ul>
-            <div>{custom.id ? <div>{custom.test} hi!!!</div>:
-                <ul>
-                    <li>
-                        <Link to="/topic/add">Add</Link>
-                    </li>
-                    <li>
-                        <Link to="/topic/edit">Edit</Link>
-                    </li>
-                    <li>
-                        <Link to="/topic/delete">Delete</Link>
-                    </li>
-                </ul>}
+            <div>{id ?
+                <div>{(custom.user == custom.topic.author) ?
+                    <ul>
+                        <li>
+                            <Link to={"/topic/edit/"+id}>Edit</Link>
+                        </li>
+                        <li>
+                            <Link to={"/topic/delete/"+id}>Delete</Link>
+                        </li>
+                    </ul>:
+                    <div></div>
+                }</div>:
+                <div></div>}
             </div>
 
             <script dangerouslySetInnerHTML={{
@@ -50,14 +53,6 @@ var Layout = React.createClass({
         );
     }
 });
-
-var wrapper = connect(
-    function(state) {
-        return { custom: state };
-    }
-);
-
-module.exports = wrapper(Layout);
 
 // var React = require('react');
 // var Link = require('react-router').Link;

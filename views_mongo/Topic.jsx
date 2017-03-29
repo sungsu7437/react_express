@@ -1,28 +1,17 @@
 var React = require('react');
-var connect =require('react-redux').connect;
 
-
-var Topic = React.createClass({
-    displayName: 'Topic',
-    render: function () {
+module.exports = React.createClass({
+    displayName: 'About',
+    render: function() {
         var custom = this.props.custom;
-
+        var topic = custom.topic;
         return (
-            <ul>
-                <p>
-                    Title: <strong>{custom.title.description}</strong>
-                </p>
-            </ul>
+            <div>
+                <h2>{topic.title}</h2>
+                <div>{topic.description}</div>
+                by {topic.author}
+            </div>
 
-
-        )
+        );
     }
 });
-
-var wrapper = connect(
-    function (state) {
-        return { custom: state};
-    }
-);
-
-module.exports = wrapper(Topic);
